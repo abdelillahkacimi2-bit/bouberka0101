@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 280" width="240" height="280">
+  <defs>
+    <linearGradient id="archGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B6914"/>
+      <stop offset="100%" style="stop-color:#B8900F"/>
+    </linearGradient>
+    <linearGradient id="bookGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1E3A5F"/>
+      <stop offset="100%" style="stop-color:#2A4E80"/>
+    </linearGradient>
+  </defs>
+
+  <!-- أعمدة المعبد -->
+  <rect x="30" y="70" width="12" height="80" fill="url(#archGrad)" rx="2"/>
+  <rect x="57" y="60" width="12" height="90" fill="url(#archGrad)" rx="2"/>
+  <rect x="84" y="55" width="12" height="95" fill="url(#archGrad)" rx="2"/>
+  <rect x="111" y="55" width="12" height="95" fill="url(#archGrad)" rx="2"/>
+  <rect x="138" y="55" width="12" height="95" fill="url(#archGrad)" rx="2"/>
+  <rect x="165" y="60" width="12" height="90" fill="url(#archGrad)" rx="2"/>
+  <rect x="192" y="70" width="12" height="80" fill="url(#archGrad)" rx="2"/>
+
+  <!-- قمة المعبد -->
+  <polygon points="120,15 20,65 220,65" fill="url(#archGrad)"/>
+  <!-- شريط أفقي -->
+  <rect x="20" y="62" width="200" height="8" fill="url(#archGrad)" rx="1"/>
+
+  <!-- الكتاب المفتوح -->
+  <!-- الصفحة اليسرى -->
+  <path d="M25,150 Q120,135 120,160 L120,200 Q120,175 25,185 Z" fill="url(#bookGrad)" opacity="0.9"/>
+  <!-- الصفحة اليمنى -->
+  <path d="M215,150 Q120,135 120,160 L120,200 Q120,175 215,185 Z" fill="#2A4E80" opacity="0.9"/>
+  <!-- الخط المركزي للكتاب -->
+  <line x1="120" y1="140" x2="120" y2="200" stroke="#1E3A5F" strokeWidth="2"/>
+
+  <!-- خطوط الكتاب اليسار -->
+  <line x1="60" y1="158" x2="115" y2="152" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5"/>
+  <line x1="55" y1="165" x2="115" y2="159" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5"/>
+  <line x1="55" y1="172" x2="115" y2="167" stroke="rgba(255,255,255,0.3)" strokeWidth="1"/>
+
+  <!-- خطوط الكتاب اليمين -->
+  <line x1="125" y1="152" x2="180" y2="158" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5"/>
+  <line x1="125" y1="159" x2="183" y2="165" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5"/>
+  <line x1="125" y1="167" x2="183" y2="172" stroke="rgba(255,255,255,0.3)" strokeWidth="1"/>
+
+  <!-- النص العربي -->
+  <text x="120" y="220" textAnchor="middle" fontFamily="Arial, sans-serif" fontSize="13" fontWeight="bold" fill="#1E3A5F">المركز الجامعي مغنية</text>
+  <text x="120" y="240" textAnchor="middle" fontFamily="Arial, sans-serif" fontSize="10" fill="#8B6914">University Centre of Maghnia</text>
+</svg>
