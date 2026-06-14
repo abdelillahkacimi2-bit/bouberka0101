@@ -1,79 +1,100 @@
-// Landing page — هولينغو الصفحة الرئيسية — تصميم أبيض ثلاثي الأبعاد
+// ════════════════════════════════════════════════════════════════════════════
+//  Holingo — الصفحة الرئيسية
+//  إعادة تصميم: خلفية بيضاء نقية + إسقاط هولوغرامي + عناصر ثلاثية الأبعاد متحركة
+//  المركز الجامعي بمغنية — لسانيات تطبيقية — 2025/2026
+// ════════════════════════════════════════════════════════════════════════════
 'use client';
 
 import { useRouter } from 'next/navigation';
 
-// ─── بطاقة الدور ────────────────────────────────────────────────────────────
+// ألوان النظام -----------------------------------------------------------------
+const CYAN = '#00D4FF';
+const PURPLE = '#7B2FBE';
+const MAGENTA = '#FF3DAE';
+
+// ─── بطاقة الدور (المنطق محفوظ: التوجيه عند النقر) ───────────────────────────
 function RoleCard({
   icon, title, description, color, colorLight, href,
 }: {
-  icon: string; title: string; description?: string;
+  icon: string; title: string; description: string;
   color: string; colorLight: string; href: string;
 }) {
   const router = useRouter();
+
+  const lift = (el: HTMLDivElement) => {
+    el.style.transform = 'translateY(-10px) scale(1.02)';
+    el.style.boxShadow = `0 26px 60px ${color}26`;
+    el.style.borderColor = `${color}55`;
+  };
+  const rest = (el: HTMLDivElement) => {
+    el.style.transform = 'translateY(0) scale(1)';
+    el.style.boxShadow = '0 8px 30px rgba(17,18,42,0.06)';
+    el.style.borderColor = 'rgba(17,18,42,0.06)';
+  };
+
   return (
     <div
+      className="role-card"
+      role="button"
+      tabIndex={0}
+      aria-label={`${title} — ابدأ التسجيل`}
       onClick={() => router.push(href)}
-      onMouseEnter={e => {
-        const el = e.currentTarget as HTMLDivElement;
-        el.style.transform = 'translateY(-10px) scale(1.02)';
-        el.style.boxShadow = `0 24px 60px ${color}25`;
-        el.style.borderColor = `${color}60`;
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); router.push(href); }
       }}
-      onMouseLeave={e => {
-        const el = e.currentTarget as HTMLDivElement;
-        el.style.transform = 'translateY(0) scale(1)';
-        el.style.boxShadow = '0 4px 24px rgba(0,0,0,0.06)';
-        el.style.borderColor = 'rgba(0,0,0,0.06)';
-      }}
+      onMouseEnter={(e) => lift(e.currentTarget)}
+      onMouseLeave={(e) => rest(e.currentTarget)}
+      onFocus={(e) => lift(e.currentTarget)}
+      onBlur={(e) => rest(e.currentTarget)}
       style={{
-        background: 'rgba(255,255,255,0.9)',
-        backdropFilter: 'blur(20px)',
-        border: '2px solid rgba(0,0,0,0.06)',
+        background: 'rgba(255,255,255,0.96)',
+        backdropFilter: 'blur(18px)',
+        WebkitBackdropFilter: 'blur(18px)',
+        border: '2px solid rgba(17,18,42,0.06)',
         borderRadius: '24px',
-        padding: '40px 32px',
+        padding: '40px 30px',
         cursor: 'pointer',
         transition: 'all 0.4s cubic-bezier(0.175,0.885,0.32,1.275)',
-        boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
+        boxShadow: '0 8px 30px rgba(17,18,42,0.06)',
         textAlign: 'center',
         position: 'relative',
         overflow: 'hidden',
       }}
     >
+      {/* وهج زاوية */}
       <div style={{
-        position: 'absolute', top: '-30px', right: '-30px',
-        width: '120px', height: '120px',
-        background: `radial-gradient(circle, ${color}12, transparent 70%)`,
+        position: 'absolute', top: '-40px', insetInlineEnd: '-40px',
+        width: '130px', height: '130px',
+        background: `radial-gradient(circle, ${color}14, transparent 70%)`,
         borderRadius: '50%', pointerEvents: 'none',
       }} />
+      {/* أيقونة */}
       <div style={{
-        width: '72px', height: '72px', margin: '0 auto 20px',
+        width: '74px', height: '74px', margin: '0 auto 20px',
         background: `linear-gradient(135deg, ${color}, ${colorLight})`,
         borderRadius: '20px', display: 'flex', alignItems: 'center',
         justifyContent: 'center', fontSize: '32px',
-        boxShadow: `0 8px 24px ${color}35`,
+        boxShadow: `0 10px 26px ${color}38`,
       }}>
         {icon}
       </div>
       <h3 style={{
-        fontFamily: 'Cairo, sans-serif', fontWeight: '800', fontSize: '20px',
-        color: '#1A1A2E', marginBottom: description ? '10px' : '20px',
+        fontFamily: 'Cairo, sans-serif', fontWeight: 800, fontSize: '20px',
+        color: '#11122A', marginBottom: '10px',
       }}>{title}</h3>
-      {description && (
-        <p style={{
-          fontFamily: 'Cairo, sans-serif', fontSize: '13px',
-          color: '#6B7280', lineHeight: '1.7', marginBottom: '20px',
-        }}>{description}</p>
-      )}
+      <p style={{
+        fontFamily: 'Cairo, sans-serif', fontSize: '13.5px',
+        color: '#5B6478', lineHeight: 1.7, marginBottom: '22px',
+      }}>{description}</p>
       <div style={{
         display: 'inline-flex', alignItems: 'center', gap: '8px',
-        padding: '10px 24px',
+        padding: '11px 26px',
         background: `linear-gradient(135deg, ${color}, ${colorLight})`,
         color: 'white', borderRadius: '12px',
-        fontFamily: 'Cairo, sans-serif', fontWeight: '600', fontSize: '14px',
-        boxShadow: `0 4px 15px ${color}30`, marginTop: description ? '0' : '12px',
+        fontFamily: 'Cairo, sans-serif', fontWeight: 600, fontSize: '14px',
+        boxShadow: `0 6px 18px ${color}33`,
       }}>
-        ابدأ التسجيل <span>←</span>
+        ابدأ التسجيل <span aria-hidden>←</span>
       </div>
     </div>
   );
@@ -82,618 +103,641 @@ function RoleCard({
 // ─── بطاقة عضو الفريق ────────────────────────────────────────────────────────
 function TeamCard({ name, initials, color }: { name: string; initials: string; color: string }) {
   return (
-    <div style={{
-      background: 'rgba(255,255,255,0.8)',
-      border: `1px solid ${color}20`,
-      borderRadius: '16px', padding: '20px 16px',
-      textAlign: 'center', transition: 'all 0.3s ease',
-      boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
-    }}
-    onMouseEnter={e => {
-      const el = e.currentTarget as HTMLDivElement;
-      el.style.transform = 'translateY(-4px)';
-      el.style.boxShadow = `0 12px 32px ${color}20`;
-      el.style.borderColor = `${color}40`;
-    }}
-    onMouseLeave={e => {
-      const el = e.currentTarget as HTMLDivElement;
-      el.style.transform = 'translateY(0)';
-      el.style.boxShadow = '0 2px 12px rgba(0,0,0,0.04)';
-      el.style.borderColor = `${color}20`;
-    }}
+    <div
+      className="team-card"
+      style={{
+        background: 'rgba(255,255,255,0.9)',
+        border: `1px solid ${color}22`,
+        borderRadius: '18px', padding: '22px 16px',
+        textAlign: 'center', transition: 'all 0.32s ease',
+        boxShadow: '0 4px 18px rgba(17,18,42,0.05)',
+      }}
+      onMouseEnter={(e) => {
+        const el = e.currentTarget;
+        el.style.transform = 'translateY(-5px)';
+        el.style.boxShadow = `0 16px 36px ${color}24`;
+        el.style.borderColor = `${color}50`;
+      }}
+      onMouseLeave={(e) => {
+        const el = e.currentTarget;
+        el.style.transform = 'translateY(0)';
+        el.style.boxShadow = '0 4px 18px rgba(17,18,42,0.05)';
+        el.style.borderColor = `${color}22`;
+      }}
     >
       <div style={{
-        width: '52px', height: '52px', margin: '0 auto 12px',
-        background: `linear-gradient(135deg, ${color}, ${color}88)`,
+        width: '56px', height: '56px', margin: '0 auto 12px',
+        background: `linear-gradient(135deg, ${color}, ${color}99)`,
         borderRadius: '50%', display: 'flex', alignItems: 'center',
         justifyContent: 'center', fontFamily: 'Cairo, sans-serif',
-        fontWeight: '800', fontSize: '16px', color: 'white',
-        boxShadow: `0 4px 16px ${color}35`,
+        fontWeight: 800, fontSize: '17px', color: 'white',
+        boxShadow: `0 6px 18px ${color}3a`,
       }}>
         {initials}
       </div>
       <p style={{
-        fontFamily: 'Cairo, sans-serif', fontWeight: '700', fontSize: '13px',
-        color: '#1A1A2E', margin: 0, lineHeight: '1.4',
+        fontFamily: 'Cairo, sans-serif', fontWeight: 700, fontSize: '13.5px',
+        color: '#11122A', margin: 0, lineHeight: 1.45,
       }}>{name}</p>
     </div>
   );
 }
 
-// ─── الصفحة الرئيسية ─────────────────────────────────────────────────────────
+// ─── عنوان القسم (موحّد) ─────────────────────────────────────────────────────
+function SectionTitle({ children, sub }: { children: React.ReactNode; sub?: string }) {
+  return (
+    <div style={{ textAlign: 'center', marginBottom: '44px' }}>
+      <h2 style={{
+        fontFamily: 'Cairo, sans-serif', fontWeight: 800,
+        fontSize: 'clamp(22px, 3.4vw, 34px)', color: '#11122A', marginBottom: sub ? '14px' : '16px',
+      }}>{children}</h2>
+      {sub && (
+        <p style={{
+          fontFamily: 'Cairo, sans-serif', fontSize: 'clamp(14px, 2vw, 16px)',
+          color: '#5B6478', lineHeight: 2, maxWidth: '640px', margin: '0 auto',
+        }}>{sub}</p>
+      )}
+      <div style={{
+        width: '64px', height: '3px', margin: sub ? '22px auto 0' : '0 auto',
+        background: `linear-gradient(90deg, ${CYAN}, ${PURPLE}, ${MAGENTA})`, borderRadius: '2px',
+      }} />
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  الصفحة
+// ════════════════════════════════════════════════════════════════════════════
 export default function HomePage() {
-  const teamColors = [
-    '#1E88E5', '#7B2FBE', '#00BCD4', '#E91E63',
-    '#7B2FBE', '#1E88E5', '#E91E63', '#00BCD4',
-  ];
+  const teamColors = [CYAN, PURPLE, MAGENTA, CYAN, PURPLE, MAGENTA, CYAN, PURPLE];
 
   const team = [
     { name: 'قاسيمي عبد الإله', initials: 'ق.ع' },
     { name: 'قرشي إلياس',        initials: 'ق.إ' },
-    { name: 'المسعود يوسف',       initials: 'م.ي' },
+    { name: 'المسعود يوسف',      initials: 'م.ي' },
     { name: 'دكالي عائشة',        initials: 'د.ع' },
     { name: 'وهيب وهيبة',         initials: 'و.و' },
     { name: 'زياني سمير',         initials: 'ز.س' },
-    { name: 'صمود عبد الرزاق',    initials: 'ص.ع' },
+    { name: 'صمود عبد الرزاق',   initials: 'ص.ع' },
     { name: 'خليد نبيل',          initials: 'خ.ن' },
   ];
 
+  const academicLines = [
+    { text: 'الجمهورية الجزائرية الديمقراطية الشعبية', size: '11.5px', weight: 500, color: '#5B6478' },
+    { text: 'وزارة التعليم العالي والبحث العلمي',      size: '11.5px', weight: 500, color: '#5B6478' },
+    { text: 'المركز الجامعي بمغنية',                    size: '15px',   weight: 800, color: '#11122A' },
+    { text: 'معهد الآداب واللغات — قسم اللغة والأدب العربي', size: '12.5px', weight: 600, color: '#374151' },
+    { text: 'تخصص: لسانيات تطبيقية   |   السنة الجامعية: 2025–2026', size: '11.5px', weight: 500, color: '#9098A6' },
+  ];
+
   return (
-    <div style={{ background: '#F8FAFF', minHeight: '100vh', direction: 'rtl', fontFamily: 'Cairo, sans-serif', overflowX: 'hidden' }}>
+    <div style={{ background: '#FFFFFF', minHeight: '100vh', direction: 'rtl', fontFamily: 'Cairo, sans-serif', overflowX: 'hidden' }}>
 
-      {/* ══ CSS Animations ══ */}
+      {/* ════════════════ الأنماط والحركات ════════════════ */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
+        :root{ --cyan:${CYAN}; --purple:${PURPLE}; --magenta:${MAGENTA}; }
 
-        @keyframes floatRing {
-          from { transform: rotateX(72deg) rotateZ(0deg); }
-          to   { transform: rotateX(72deg) rotateZ(360deg); }
-        }
-        @keyframes floatRing2 {
-          from { transform: rotateX(65deg) rotateZ(360deg); }
-          to   { transform: rotateX(65deg) rotateZ(0deg); }
-        }
-        @keyframes floatRing3 {
-          from { transform: rotateX(78deg) rotateZ(0deg); }
-          to   { transform: rotateX(78deg) rotateZ(360deg); }
-        }
-        @keyframes bobFloat {
-          0%,100% { transform: translateY(0px) rotateY(0deg); }
-          50%      { transform: translateY(-28px) rotateY(180deg); }
-        }
-        @keyframes bobFloat2 {
-          0%,100% { transform: translateY(0px) rotate(0deg); }
-          50%      { transform: translateY(-20px) rotate(180deg); }
-        }
+        @keyframes spinRingA { from { transform: rotateX(74deg) rotateZ(0deg); }   to { transform: rotateX(74deg) rotateZ(360deg); } }
+        @keyframes spinRingB { from { transform: rotateX(66deg) rotateZ(360deg); } to { transform: rotateX(66deg) rotateZ(0deg); } }
+        @keyframes spinRingC { from { transform: rotateX(82deg) rotateZ(0deg); }   to { transform: rotateX(82deg) rotateZ(360deg); } }
+        @keyframes floatY  { 0%,100% { transform: translateY(0); }            50% { transform: translateY(-14px); } }
+        @keyframes floatYr { 0%,100% { transform: translateY(0) rotate(0); }  50% { transform: translateY(-20px) rotate(180deg); } }
+        @keyframes floatYs { 0%,100% { transform: translateY(0) rotate(0); }  50% { transform: translateY(-16px) rotate(-160deg); } }
+        @keyframes slowSpin{ from { transform: rotate(0); } to { transform: rotate(360deg); } }
         @keyframes drift {
-          0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0.7; }
-          33%  { transform: translateY(-35px) translateX(12px) scale(1.1); opacity: 1; }
-          66%  { transform: translateY(-18px) translateX(-8px) scale(0.95); opacity: 0.85; }
-          100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.7; }
+          0%   { transform: translate(0,0) scale(1);        opacity: .55; }
+          33%  { transform: translate(10px,-32px) scale(1.18); opacity: 1; }
+          66%  { transform: translate(-8px,-16px) scale(.9);  opacity: .8; }
+          100% { transform: translate(0,0) scale(1);        opacity: .55; }
         }
-        @keyframes scanV {
-          from { top: -5%; }
-          to   { top: 105%; }
-        }
-        @keyframes shimmerText {
-          0%   { background-position: -200% center; }
-          100% { background-position: 200% center; }
-        }
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(28px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes pulse3d {
-          0%,100% { box-shadow: 0 0 0 0 rgba(30,136,229,0.15); }
-          50%      { box-shadow: 0 0 0 16px rgba(30,136,229,0); }
-        }
-        @keyframes holoPulse {
-          0%,100% { opacity: 0.35; }
-          50%      { opacity: 0.75; }
+        @keyframes scanMove { 0% { top: 4%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 92%; opacity: 0; } }
+        @keyframes shimmer  { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+        @keyframes fadeUp   { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes basePulse{ 0%,100% { opacity:.5; transform: translateX(-50%) scaleX(1); } 50% { opacity:.85; transform: translateX(-50%) scaleX(1.12); } }
+        @keyframes coneFlicker { 0%,100% { opacity:.28; } 45% { opacity:.46; } 55% { opacity:.34; } }
+        @keyframes ringPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(0,212,255,.20); } 50% { box-shadow: 0 0 0 14px rgba(0,212,255,0); } }
+        @keyframes bobArrow { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+        .ringA { animation: spinRingA 11s linear infinite; }
+        .ringB { animation: spinRingB 16s linear infinite; }
+        .ringC { animation: spinRingC 8s  linear infinite; }
+        .floaty  { animation: floatY  6s ease-in-out infinite; }
+        .floatyr { animation: floatYr 9s ease-in-out infinite; }
+        .floatys { animation: floatYs 11s ease-in-out infinite; }
+        .spin    { animation: slowSpin 22s linear infinite; }
+        .dot     { animation: drift 7s ease-in-out infinite; }
+        .holo-panel-float { animation: floatY 5s ease-in-out infinite; }
+        .holo-base  { animation: basePulse 3s ease-in-out infinite; }
+        .holo-cone  { animation: coneFlicker 4s ease-in-out infinite; }
+        .holo-scan  { animation: scanMove 3.6s linear infinite; }
+        .ring-pulse { animation: ringPulse 3s ease-in-out infinite; }
+        .arrow-bob  { animation: bobArrow 1.8s ease-in-out infinite; }
+
+        .wordmark {
+          background: linear-gradient(120deg, var(--cyan), var(--purple), var(--magenta), var(--cyan));
+          background-size: 220% auto;
+          -webkit-background-clip: text; background-clip: text;
+          -webkit-text-fill-color: transparent; color: transparent;
+          animation: shimmer 5s linear infinite;
         }
 
-        .ring-1 { animation: floatRing 10s linear infinite; }
-        .ring-2 { animation: floatRing2 14s linear infinite; }
-        .ring-3 { animation: floatRing3 7s linear infinite; }
-        .cube-1 { animation: bobFloat 7s ease-in-out infinite; }
-        .cube-2 { animation: bobFloat 9s ease-in-out infinite 2.5s; }
-        .cube-3 { animation: bobFloat 11s ease-in-out infinite 5s; }
-        .pyr-1  { animation: bobFloat2 8s ease-in-out infinite 1s; }
-        .pyr-2  { animation: bobFloat2 10s ease-in-out infinite 3s; }
-        .dot    { animation: drift 7s ease-in-out infinite; }
-        .scan   { animation: scanV 5s linear infinite; }
-        .shimmer-text {
-          background: linear-gradient(135deg, #1E88E5, #7B2FBE, #00BCD4, #1E88E5);
-          background-size: 200% auto;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          animation: shimmerText 4s linear infinite;
-        }
-        .fade-u0 { animation: fadeUp 0.7s ease-out forwards; }
-        .fade-u1 { animation: fadeUp 0.7s ease-out 0.2s forwards; opacity: 0; }
-        .fade-u2 { animation: fadeUp 0.7s ease-out 0.4s forwards; opacity: 0; }
-        .fade-u3 { animation: fadeUp 0.7s ease-out 0.6s forwards; opacity: 0; }
-        .fade-u4 { animation: fadeUp 0.7s ease-out 0.8s forwards; opacity: 0; }
-        .spin-s  { animation: spinSlow 20s linear infinite; }
-        .holo-pulse { animation: holoPulse 3s ease-in-out infinite; }
+        .fu0 { animation: fadeUp .7s ease-out forwards; }
+        .fu1 { animation: fadeUp .7s ease-out .15s forwards; opacity: 0; }
+        .fu2 { animation: fadeUp .7s ease-out .30s forwards; opacity: 0; }
+        .fu3 { animation: fadeUp .7s ease-out .45s forwards; opacity: 0; }
+        .fu4 { animation: fadeUp .7s ease-out .60s forwards; opacity: 0; }
+        .fu5 { animation: fadeUp .7s ease-out .75s forwards; opacity: 0; }
 
-        /* Holographic card border */
+        .scanlines {
+          background-image: repeating-linear-gradient(0deg,
+            rgba(0,212,255,.14) 0px, rgba(0,212,255,.14) 1px,
+            transparent 1px, transparent 4px);
+        }
+
+        /* بطاقة هولوغرامية زجاجية */
         .holo-card {
-          background: rgba(255,255,255,0.85);
-          backdrop-filter: blur(20px);
-          border: 1.5px solid rgba(30,136,229,0.25);
-          border-radius: 20px;
-          box-shadow: 0 4px 30px rgba(30,136,229,0.08), inset 0 1px 0 rgba(255,255,255,0.9);
-          transition: all 0.35s ease;
           position: relative;
+          background: rgba(255,255,255,0.74);
+          backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+          border: 1px solid rgba(123,47,190,0.14);
+          border-radius: 22px;
+          box-shadow: 0 12px 40px rgba(17,18,42,0.06);
           overflow: hidden;
+          transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease;
         }
         .holo-card::before {
-          content: '';
-          position: absolute;
-          top: 0; left: -100%;
-          width: 80%; height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(30,136,229,0.06), transparent);
-          transition: left 0.6s ease;
+          content: ''; position: absolute; inset: 0 0 auto 0; height: 2px;
+          background: linear-gradient(90deg, transparent, var(--cyan), var(--purple), var(--magenta), transparent);
+          opacity: .75;
         }
-        .holo-card:hover::before { left: 120%; }
+        .holo-card::after {
+          content: ''; position: absolute; top: 0; inset-inline-start: -120%;
+          width: 70%; height: 100%; pointer-events: none;
+          background: linear-gradient(100deg, transparent, rgba(0,212,255,.09), transparent);
+          transition: inset-inline-start .7s ease;
+        }
+        .holo-card:hover::after { inset-inline-start: 130%; }
         .holo-card:hover {
-          box-shadow: 0 12px 40px rgba(30,136,229,0.15), 0 0 0 1px rgba(30,136,229,0.3);
-          transform: translateY(-4px);
+          transform: translateY(-5px);
+          box-shadow: 0 20px 52px rgba(0,212,255,0.14);
+          border-color: rgba(0,212,255,0.32);
         }
 
-        @media (max-width: 768px) {
-          .hero-rings { display: none; }
-          .floating-3d { display: none; }
+        .role-card:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; }
+        a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: 4px; }
+
+        @media (max-width: 880px) { .hero-floats { display: none; } }
+        @media (max-width: 600px) { .acad-sep { display: none; } }
+
+        @media (prefers-reduced-motion: reduce) {
+          .ringA,.ringB,.ringC,.floaty,.floatyr,.floatys,.spin,.dot,
+          .holo-panel-float,.holo-base,.holo-cone,.holo-scan,.ring-pulse,
+          .arrow-bob,.wordmark { animation: none !important; }
+          .fu0,.fu1,.fu2,.fu3,.fu4,.fu5 { animation: none !important; opacity: 1 !important; transform: none !important; }
+          .wordmark { -webkit-text-fill-color: ${PURPLE}; color: ${PURPLE}; }
         }
       `}</style>
 
-      {/* ══════════════════════════════════════════════
-          HEADER — البيانات الأكاديمية الرسمية + اللوغوات
-          ══════════════════════════════════════════════ */}
+      {/* ════════════════════════════════════════════════════════════════
+          HEADER — البيانات الأكاديمية الرسمية + اللوغوان
+          ════════════════════════════════════════════════════════════════ */}
       <header style={{
-        background: 'rgba(255,255,255,0.97)',
-        borderBottom: '1px solid rgba(30,136,229,0.12)',
-        padding: '20px 32px',
-        position: 'relative',
-        zIndex: 20,
-        boxShadow: '0 2px 20px rgba(30,136,229,0.07)',
+        background: 'rgba(255,255,255,0.96)',
+        backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
+        borderBottom: '1px solid rgba(0,212,255,0.16)',
+        padding: '18px 28px', position: 'relative', zIndex: 20,
+        boxShadow: '0 2px 24px rgba(17,18,42,0.05)',
       }}>
-        <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap', justifyContent: 'center' }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '22px', flexWrap: 'wrap', justifyContent: 'center' }}>
 
           {/* لوغو الجامعة */}
-          <div style={{ flexShrink: 0 }}>
+          <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <img
-              src="/university-logo.svg"
-              alt="المركز الجامعي مغنية"
-              width={85}
-              height={100}
-              style={{ display: 'block', objectFit: 'contain' }}
+              src="/university-logo.png"
+              alt="المركز الجامعي بمغنية"
+              width={92} height={88}
+              style={{ display: 'block', objectFit: 'contain', height: '84px', width: 'auto' }}
             />
           </div>
 
-          {/* الفاصل */}
-          <div style={{ width: '1px', height: '80px', background: 'linear-gradient(180deg, transparent, rgba(30,136,229,0.25), transparent)', flexShrink: 0 }} />
+          <div className="acad-sep" style={{ width: '1px', height: '78px', background: 'linear-gradient(180deg, transparent, rgba(0,212,255,0.3), transparent)', flexShrink: 0 }} />
 
           {/* النصوص الأكاديمية */}
-          <div style={{ flex: 1, textAlign: 'center', minWidth: '260px' }}>
-            {[
-              { text: 'الجمهورية الجزائرية الديمقراطية الشعبية', size: '11px', weight: '500', color: '#6B7280' },
-              { text: 'وزارة التعليم العالي والبحث العلمي', size: '11px', weight: '500', color: '#6B7280' },
-              { text: 'المركز الجامعي بمغنية', size: '14px', weight: '800', color: '#1E3A5F' },
-              { text: 'معهد الآداب واللغات — قسم اللغة والأدب العربي', size: '12px', weight: '600', color: '#374151' },
-              { text: 'تخصص: لسانيات تطبيقية   |   السنة الجامعية: 2025–2026', size: '11px', weight: '500', color: '#9CA3AF' },
-            ].map((line, i) => (
+          <div style={{ flex: 1, textAlign: 'center', minWidth: '250px' }}>
+            {academicLines.map((line, i) => (
               <p key={i} style={{
                 margin: '2px 0', fontFamily: 'Cairo, sans-serif',
-                fontSize: line.size, fontWeight: line.weight, color: line.color, lineHeight: '1.6',
+                fontSize: line.size, fontWeight: line.weight, color: line.color, lineHeight: 1.6,
               }}>{line.text}</p>
             ))}
           </div>
 
-          {/* الفاصل */}
-          <div style={{ width: '1px', height: '80px', background: 'linear-gradient(180deg, transparent, rgba(30,136,229,0.25), transparent)', flexShrink: 0 }} />
+          <div className="acad-sep" style={{ width: '1px', height: '78px', background: 'linear-gradient(180deg, transparent, rgba(123,47,190,0.3), transparent)', flexShrink: 0 }} />
 
           {/* لوغو هولينغو */}
-          <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-            <img
-              src="/holingo-logo.svg"
-              alt="Holingo Logo"
-              width={84}
-              height={84}
-              style={{ display: 'block', borderRadius: '16px', objectFit: 'contain' }}
-            />
-            <span style={{ fontFamily: 'Cairo, sans-serif', fontWeight: '800', fontSize: '13px', color: '#1E3A5F', letterSpacing: '1px' }}>Holingo</span>
+          <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+            <div style={{
+              borderRadius: '16px', overflow: 'hidden', lineHeight: 0,
+              boxShadow: '0 6px 20px rgba(0,212,255,0.22), 0 0 0 1px rgba(0,212,255,0.18)',
+            }}>
+              <img
+                src="/holingo-logo.png"
+                alt="Holingo"
+                width={76} height={76}
+                style={{ display: 'block', objectFit: 'cover', width: '76px', height: '76px' }}
+              />
+            </div>
+            <span style={{ fontFamily: 'Cairo, sans-serif', fontWeight: 800, fontSize: '12px', color: '#11122A', letterSpacing: '1px' }}>Holingo</span>
           </div>
         </div>
       </header>
 
-      {/* ══════════════════════════════════════════════
-          HERO — خلفية ثلاثية الأبعاد بيضاء + هولوغرام
-          ══════════════════════════════════════════════ */}
-      <section style={{ position: 'relative', minHeight: '92vh', display: 'flex', alignItems: 'center', overflow: 'hidden', padding: '60px 24px' }}>
+      {/* ════════════════════════════════════════════════════════════════
+          HERO — خلفية بيضاء ثلاثية الأبعاد + إسقاط هولوغرامي للّوغو
+          ════════════════════════════════════════════════════════════════ */}
+      <section style={{ position: 'relative', minHeight: '94vh', display: 'flex', alignItems: 'center', overflow: 'hidden', padding: '56px 24px 72px' }}>
 
-        {/* ── خلفية: شبكة نقاط ── */}
+        {/* شبكة نقاط خفيفة */}
         <div style={{
           position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none',
-          backgroundImage: 'radial-gradient(circle, rgba(30,136,229,0.12) 1px, transparent 1px)',
-          backgroundSize: '36px 36px',
+          backgroundImage: 'radial-gradient(circle, rgba(0,212,255,0.10) 1px, transparent 1px)',
+          backgroundSize: '38px 38px',
+          maskImage: 'radial-gradient(ellipse 80% 80% at 50% 40%, #000 40%, transparent 100%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 80% 80% at 50% 40%, #000 40%, transparent 100%)',
         }} />
 
-        {/* ── خلفية: تدرج ضوئي ── */}
+        {/* تدرّج ضوئي علوي */}
         <div style={{
-          position: 'absolute', top: '10%', left: '50%', transform: 'translateX(-50%)',
-          width: '700px', height: '700px',
-          background: 'radial-gradient(ellipse, rgba(30,136,229,0.06) 0%, rgba(123,47,190,0.04) 50%, transparent 70%)',
+          position: 'absolute', top: '4%', left: '50%', transform: 'translateX(-50%)',
+          width: '760px', height: '760px',
+          background: 'radial-gradient(ellipse, rgba(0,212,255,0.07) 0%, rgba(123,47,190,0.05) 45%, rgba(255,61,174,0.03) 65%, transparent 75%)',
           borderRadius: '50%', zIndex: 0, pointerEvents: 'none',
         }} />
 
-        {/* ── عناصر ثلاثية الأبعاد: حلقات هولوغرام ── */}
-        <div className="hero-rings" style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 0, perspective: '1000px', pointerEvents: 'none' }}>
-          <div className="ring-1" style={{ position: 'absolute', width: '520px', height: '520px', border: '2px solid rgba(30,136,229,0.2)', borderRadius: '50%', boxShadow: '0 0 30px rgba(30,136,229,0.08), inset 0 0 20px rgba(30,136,229,0.04)' }} />
-          <div className="ring-2" style={{ position: 'absolute', width: '700px', height: '700px', border: '1.5px solid rgba(123,47,190,0.15)', borderRadius: '50%', boxShadow: '0 0 20px rgba(123,47,190,0.06)' }} />
-          <div className="ring-3" style={{ position: 'absolute', width: '360px', height: '360px', border: '2.5px solid rgba(0,188,212,0.2)', borderRadius: '50%', boxShadow: '0 0 25px rgba(0,188,212,0.08)' }} />
-          {/* نقطة مركزية نابضة */}
-          <div style={{ position: 'absolute', width: '10px', height: '10px', background: '#1E88E5', borderRadius: '50%', boxShadow: '0 0 16px #1E88E5, 0 0 40px rgba(30,136,229,0.4)', animation: 'holoPulse 2.5s ease-in-out infinite' }} />
-        </div>
-
-        {/* ── مكعبات SVG طافية ── */}
-        <div className="floating-3d">
-          {/* مكعب 1 — أعلى يمين */}
-          <div className="cube-1" style={{ position: 'absolute', top: '12%', right: '8%', zIndex: 1 }}>
-            <svg width="70" height="70" viewBox="0 0 80 80" fill="none">
-              <polygon points="40,8 72,26 72,60 40,72 8,60 8,26" stroke="#1E88E5" strokeWidth="1.5" fill="rgba(30,136,229,0.05)"/>
-              <polygon points="40,8 72,26 40,38" stroke="#1E88E5" strokeWidth="1" fill="rgba(30,136,229,0.08)"/>
-              <polygon points="40,8 8,26 40,38" stroke="#7B2FBE" strokeWidth="1" fill="rgba(123,47,190,0.06)"/>
-              <line x1="40" y1="8" x2="40" y2="38" stroke="#1E88E5" strokeWidth="1" strokeOpacity="0.5"/>
-              <line x1="72" y1="26" x2="40" y2="38" stroke="#1E88E5" strokeWidth="1" strokeOpacity="0.4"/>
-              <line x1="8" y1="26" x2="40" y2="38" stroke="#7B2FBE" strokeWidth="1" strokeOpacity="0.4"/>
+        {/* عناصر ثلاثية الأبعاد طافية (مخفية على الجوال) */}
+        <div className="hero-floats" aria-hidden style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none' }}>
+          {/* مكعب سلكي — أعلى يمين */}
+          <div className="floaty" style={{ position: 'absolute', top: '14%', insetInlineEnd: '9%' }}>
+            <svg width="74" height="74" viewBox="0 0 80 80" fill="none">
+              <polygon points="40,8 72,26 72,60 40,72 8,60 8,26" stroke={CYAN} strokeWidth="1.4" fill="rgba(0,212,255,0.04)"/>
+              <polygon points="40,8 72,26 40,38" stroke={CYAN} strokeWidth="1" fill="rgba(0,212,255,0.07)"/>
+              <polygon points="40,8 8,26 40,38" stroke={PURPLE} strokeWidth="1" fill="rgba(123,47,190,0.05)"/>
+              <line x1="40" y1="8" x2="40" y2="38" stroke={CYAN} strokeWidth="1" strokeOpacity="0.5"/>
+              <line x1="72" y1="26" x2="40" y2="38" stroke={CYAN} strokeWidth="1" strokeOpacity="0.4"/>
+              <line x1="8" y1="26" x2="40" y2="38" stroke={PURPLE} strokeWidth="1" strokeOpacity="0.4"/>
             </svg>
           </div>
-
-          {/* مكعب 2 — أسفل يسار */}
-          <div className="cube-2" style={{ position: 'absolute', bottom: '18%', left: '7%', zIndex: 1 }}>
-            <svg width="56" height="56" viewBox="0 0 80 80" fill="none">
-              <polygon points="40,8 72,26 72,60 40,72 8,60 8,26" stroke="#7B2FBE" strokeWidth="1.5" fill="rgba(123,47,190,0.05)"/>
-              <polygon points="40,8 72,26 40,38" stroke="#7B2FBE" strokeWidth="1" fill="rgba(123,47,190,0.08)"/>
-              <line x1="40" y1="8" x2="40" y2="38" stroke="#7B2FBE" strokeWidth="1" strokeOpacity="0.5"/>
+          {/* ثُماني الأوجه — أسفل يسار */}
+          <div className="floatyr" style={{ position: 'absolute', bottom: '17%', insetInlineStart: '8%' }}>
+            <svg width="64" height="64" viewBox="0 0 80 80" fill="none">
+              <polygon points="40,6 70,40 40,74 10,40" stroke={PURPLE} strokeWidth="1.4" fill="rgba(123,47,190,0.04)"/>
+              <line x1="10" y1="40" x2="70" y2="40" stroke={PURPLE} strokeWidth="1" strokeOpacity="0.45"/>
+              <line x1="40" y1="6" x2="40" y2="74" stroke={MAGENTA} strokeWidth="1" strokeOpacity="0.4"/>
             </svg>
           </div>
-
-          {/* مكعب 3 — وسط يمين */}
-          <div className="cube-3" style={{ position: 'absolute', top: '55%', right: '4%', zIndex: 1 }}>
-            <svg width="44" height="44" viewBox="0 0 80 80" fill="none">
-              <polygon points="40,8 72,26 72,60 40,72 8,60 8,26" stroke="#00BCD4" strokeWidth="1.5" fill="rgba(0,188,212,0.05)"/>
-              <line x1="40" y1="8" x2="40" y2="38" stroke="#00BCD4" strokeWidth="1" strokeOpacity="0.4"/>
-              <line x1="72" y1="26" x2="40" y2="38" stroke="#00BCD4" strokeWidth="1" strokeOpacity="0.35"/>
-              <line x1="8" y1="26" x2="40" y2="38" stroke="#00BCD4" strokeWidth="1" strokeOpacity="0.35"/>
+          {/* هرم — أعلى يسار */}
+          <div className="floatys" style={{ position: 'absolute', top: '16%', insetInlineStart: '11%' }}>
+            <svg width="58" height="58" viewBox="0 0 70 70" fill="none">
+              <polygon points="35,6 65,58 5,58" stroke={CYAN} strokeWidth="1.4" fill="rgba(0,212,255,0.05)"/>
+              <line x1="35" y1="6" x2="35" y2="58" stroke={CYAN} strokeWidth="1" strokeOpacity="0.4"/>
+              <polygon points="35,6 35,58 65,58" stroke={PURPLE} strokeWidth="0.6" fill="rgba(123,47,190,0.03)"/>
             </svg>
           </div>
-
-          {/* هرم 1 — أعلى يسار */}
-          <div className="pyr-1" style={{ position: 'absolute', top: '15%', left: '10%', zIndex: 1 }}>
-            <svg width="60" height="60" viewBox="0 0 70 70" fill="none">
-              <polygon points="35,6 65,58 5,58" stroke="#1E88E5" strokeWidth="1.5" fill="rgba(30,136,229,0.06)"/>
-              <line x1="35" y1="6" x2="35" y2="58" stroke="#1E88E5" strokeWidth="1" strokeOpacity="0.4"/>
-              <line x1="35" y1="6" x2="5" y2="58" stroke="#7B2FBE" strokeWidth="0.8" strokeOpacity="0.35"/>
-              <polygon points="35,6 35,58 65,58" stroke="#7B2FBE" strokeWidth="0.5" fill="rgba(123,47,190,0.04)"/>
+          {/* مكعب صغير — وسط يمين */}
+          <div className="floaty" style={{ position: 'absolute', top: '58%', insetInlineEnd: '5%' }}>
+            <svg width="46" height="46" viewBox="0 0 80 80" fill="none">
+              <polygon points="40,8 72,26 72,60 40,72 8,60 8,26" stroke={MAGENTA} strokeWidth="1.4" fill="rgba(255,61,174,0.04)"/>
+              <line x1="40" y1="8" x2="40" y2="38" stroke={MAGENTA} strokeWidth="1" strokeOpacity="0.4"/>
             </svg>
           </div>
-
-          {/* هرم 2 — أسفل يمين */}
-          <div className="pyr-2" style={{ position: 'absolute', bottom: '22%', right: '12%', zIndex: 1 }}>
-            <svg width="44" height="44" viewBox="0 0 70 70" fill="none">
-              <polygon points="35,6 65,58 5,58" stroke="#7B2FBE" strokeWidth="1.5" fill="rgba(123,47,190,0.05)"/>
-              <line x1="35" y1="6" x2="35" y2="58" stroke="#7B2FBE" strokeWidth="1" strokeOpacity="0.35"/>
+          {/* حلقة متقطّعة طائرة — يسار */}
+          <div className="floatyr" style={{ position: 'absolute', top: '40%', insetInlineStart: '5%' }}>
+            <svg width="50" height="24" viewBox="0 0 80 40">
+              <ellipse cx="40" cy="20" rx="38" ry="13" stroke={CYAN} strokeWidth="2" fill="none" strokeDasharray="6 5" opacity="0.5"/>
             </svg>
           </div>
-
-          {/* حلقة صغيرة طائرة */}
-          <div className="pyr-1" style={{ position: 'absolute', top: '35%', left: '4%', zIndex: 1 }}>
-            <svg width="40" height="20" viewBox="0 0 80 40">
-              <ellipse cx="40" cy="20" rx="38" ry="14" stroke="#00BCD4" strokeWidth="2" fill="none" strokeDasharray="6 4" opacity="0.5"/>
-            </svg>
-          </div>
-
-          {/* حلقة صغيرة طائرة 2 */}
-          <div className="cube-2" style={{ position: 'absolute', top: '25%', right: '18%', zIndex: 1 }}>
-            <svg width="36" height="18" viewBox="0 0 80 40">
-              <ellipse cx="40" cy="20" rx="38" ry="14" stroke="#1E88E5" strokeWidth="2" fill="none" strokeDasharray="4 3" opacity="0.4"/>
+          {/* حلقة متقطّعة طائرة — يمين */}
+          <div className="floatys" style={{ position: 'absolute', top: '28%', insetInlineEnd: '19%' }}>
+            <svg width="42" height="20" viewBox="0 0 80 40">
+              <ellipse cx="40" cy="20" rx="38" ry="13" stroke={PURPLE} strokeWidth="2" fill="none" strokeDasharray="5 4" opacity="0.42"/>
             </svg>
           </div>
         </div>
 
-        {/* ── جسيمات ── */}
-        {[
-          { top: '18%', right: '22%', size: 5, color: '#1E88E5', delay: '0s' },
-          { top: '40%', right: '15%', size: 4, color: '#7B2FBE', delay: '1.5s' },
-          { top: '70%', right: '30%', size: 6, color: '#00BCD4', delay: '3s' },
-          { top: '22%', left: '25%', size: 4, color: '#7B2FBE', delay: '0.8s' },
-          { top: '55%', left: '18%', size: 5, color: '#1E88E5', delay: '2.2s' },
-          { top: '80%', left: '35%', size: 4, color: '#00BCD4', delay: '4s' },
-          { top: '10%', left: '50%', size: 3, color: '#1E88E5', delay: '1s' },
-          { top: '60%', right: '8%',  size: 4, color: '#7B2FBE', delay: '3.5s' },
-        ].map((p, i) => (
-          <div key={i} className="dot" style={{
-            position: 'absolute',
-            top: p.top,
-            right: 'right' in p ? (p as { right: string }).right : undefined,
-            left: 'left' in p ? (p as { left: string }).left : undefined,
-            width: p.size, height: p.size,
-            borderRadius: '50%',
-            background: p.color,
-            boxShadow: `0 0 8px ${p.color}`,
-            animationDelay: p.delay, zIndex: 1,
-          }} />
-        ))}
+        {/* جسيمات */}
+        <div aria-hidden>
+          {[
+            { top: '18%', right: '23%', size: 5, color: CYAN,    delay: '0s' },
+            { top: '40%', right: '15%', size: 4, color: PURPLE,  delay: '1.5s' },
+            { top: '70%', right: '30%', size: 6, color: MAGENTA, delay: '3s' },
+            { top: '22%', left: '26%',  size: 4, color: PURPLE,  delay: '0.8s' },
+            { top: '56%', left: '18%',  size: 5, color: CYAN,    delay: '2.2s' },
+            { top: '80%', left: '36%',  size: 4, color: MAGENTA, delay: '4s' },
+            { top: '12%', left: '50%',  size: 3, color: CYAN,    delay: '1s' },
+            { top: '62%', right: '9%',   size: 4, color: PURPLE,  delay: '3.5s' },
+          ].map((p, i) => (
+            <div key={i} className="dot" style={{
+              position: 'absolute', top: p.top,
+              right: 'right' in p ? (p as { right: string }).right : undefined,
+              left:  'left'  in p ? (p as { left: string }).left  : undefined,
+              width: p.size, height: p.size, borderRadius: '50%',
+              background: p.color, boxShadow: `0 0 9px ${p.color}`,
+              animationDelay: p.delay, zIndex: 1, pointerEvents: 'none',
+            }} />
+          ))}
+        </div>
 
-        {/* ── خط مسح ── */}
-        <div className="scan" style={{
-          position: 'absolute', left: 0, right: 0, height: '1px',
-          background: 'linear-gradient(90deg, transparent, rgba(30,136,229,0.3), transparent)',
-          zIndex: 0, pointerEvents: 'none',
-        }} />
+        {/* محتوى الهيرو */}
+        <div style={{ position: 'relative', zIndex: 3, maxWidth: '880px', margin: '0 auto', textAlign: 'center', width: '100%' }}>
 
-        {/* ── محتوى الـ Hero ── */}
-        <div style={{ position: 'relative', zIndex: 2, maxWidth: '860px', margin: '0 auto', textAlign: 'center', width: '100%' }}>
-
-          {/* الشارة */}
-          <div className="fade-u0" style={{
+          {/* شارة */}
+          <div className="fu0" style={{
             display: 'inline-flex', alignItems: 'center', gap: '8px',
-            background: 'rgba(30,136,229,0.08)', border: '1px solid rgba(30,136,229,0.2)',
-            borderRadius: '50px', padding: '8px 20px', marginBottom: '32px',
-            fontFamily: 'Cairo, sans-serif', fontSize: '13px', color: '#1E88E5', fontWeight: '600',
+            background: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.24)',
+            borderRadius: '50px', padding: '8px 20px', marginBottom: '30px',
+            fontFamily: 'Cairo, sans-serif', fontSize: '13px', color: '#0596b8', fontWeight: 600,
           }}>
-            <span className="spin-s" style={{ display: 'inline-block' }}>✦</span>
+            <span className="spin" style={{ display: 'inline-block' }} aria-hidden>✦</span>
             منصة تعليمية جامعية جزائرية
           </div>
 
-          {/* لوغو هولينغو + الاسم */}
-          <div className="fade-u1" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
-            {/* صورة اللوغو */}
-            <div style={{ position: 'relative' }}>
-              <img
-                src="/holingo-logo.svg"
-                alt="Holingo"
-                width={130}
-                height={130}
-                style={{ borderRadius: '28px', objectFit: 'contain', display: 'block', position: 'relative', zIndex: 2 }}
-                onError={(e) => {
-                  const target = e.currentTarget as HTMLImageElement;
-                  target.style.display = 'none';
-                  const next = target.nextElementSibling as HTMLElement;
-                  if (next) next.style.display = 'flex';
-                }}
-              />
-              {/* Fallback */}
-              <div style={{
-                display: 'none', width: '120px', height: '120px',
-                background: 'linear-gradient(135deg, #1E88E5, #7B2FBE)',
-                borderRadius: '28px', alignItems: 'center', justifyContent: 'center',
-                fontFamily: 'Cairo, sans-serif', fontWeight: '900', fontSize: '52px', color: 'white',
-                boxShadow: '0 12px 40px rgba(30,136,229,0.4)',
-              }}>ه</div>
-              {/* حلقة توهج حول اللوغو */}
-              <div style={{
-                position: 'absolute', inset: '-8px', borderRadius: '36px',
-                border: '2px solid rgba(30,136,229,0.3)',
-                animation: 'pulse3d 3s ease-in-out infinite',
-              }} />
+          {/* ✦ الإسقاط الهولوغرامي للّوغو ✦ */}
+          <div className="fu1" style={{ position: 'relative', width: '230px', height: '250px', margin: '0 auto 28px', perspective: '900px' }}>
+
+            {/* حلقات المسح الدوّارة */}
+            <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', transformStyle: 'preserve-3d' }}>
+              <div className="ringA" style={{ position: 'absolute', width: '210px', height: '210px', border: `2px solid ${CYAN}40`, borderRadius: '50%', boxShadow: `0 0 22px ${CYAN}22` }} />
+              <div className="ringB" style={{ position: 'absolute', width: '255px', height: '255px', border: `1.5px solid ${PURPLE}38`, borderRadius: '50%' }} />
+              <div className="ringC" style={{ position: 'absolute', width: '170px', height: '170px', border: `2px solid ${MAGENTA}3a`, borderRadius: '50%' }} />
             </div>
+
+            {/* مخروط الإسقاط */}
+            <div className="holo-cone" style={{
+              position: 'absolute', bottom: '14px', left: '50%', transform: 'translateX(-50%)',
+              width: '170px', height: '180px',
+              background: `linear-gradient(to top, ${CYAN}30, ${CYAN}10 55%, transparent 85%)`,
+              clipPath: 'polygon(42% 100%, 58% 100%, 88% 0, 12% 0)',
+              filter: 'blur(2px)', pointerEvents: 'none',
+            }} />
+
+            {/* لوحة العرض الهولوغرامية (اللوغو) */}
+            <div className="holo-panel-float" style={{ position: 'absolute', top: '8px', left: '50%', transform: 'translateX(-50%)' }}>
+              <div className="ring-pulse" style={{
+                position: 'relative', width: '152px', height: '152px',
+                borderRadius: '26px', overflow: 'hidden',
+                border: `1.5px solid ${CYAN}80`,
+                boxShadow: `0 0 34px ${CYAN}40, 0 14px 40px rgba(0,212,255,0.25), inset 0 0 24px rgba(0,212,255,0.12)`,
+              }}>
+                <img
+                  src="/holingo-logo.png"
+                  alt="شعار هولينغو"
+                  width={152} height={152}
+                  style={{ display: 'block', width: '152px', height: '152px', objectFit: 'cover' }}
+                  onError={(e) => {
+                    const t = e.currentTarget;
+                    t.style.display = 'none';
+                    const fb = t.nextElementSibling as HTMLElement | null;
+                    if (fb) fb.style.display = 'flex';
+                  }}
+                />
+                {/* بديل عند فشل تحميل الصورة */}
+                <div style={{
+                  display: 'none', position: 'absolute', inset: 0,
+                  background: `linear-gradient(135deg, ${CYAN}, ${PURPLE})`,
+                  alignItems: 'center', justifyContent: 'center',
+                  fontFamily: 'Cairo, sans-serif', fontWeight: 900, fontSize: '64px', color: 'white',
+                }}>H</div>
+                {/* طبقة خطوط المسح */}
+                <div className="scanlines" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.6 }} />
+                {/* خط مسح متحرّك */}
+                <div className="holo-scan" style={{
+                  position: 'absolute', left: 0, right: 0, height: '2px',
+                  background: `linear-gradient(90deg, transparent, ${CYAN}, transparent)`,
+                  boxShadow: `0 0 8px ${CYAN}`, pointerEvents: 'none',
+                }} />
+              </div>
+            </div>
+
+            {/* قاعدة الباعث المتوهّجة */}
+            <div className="holo-base" style={{
+              position: 'absolute', bottom: '4px', left: '50%',
+              width: '150px', height: '26px',
+              background: `radial-gradient(ellipse at center, ${CYAN}66 0%, ${PURPLE}33 45%, transparent 72%)`,
+              borderRadius: '50%', filter: 'blur(3px)', pointerEvents: 'none',
+            }} />
+            <div style={{
+              position: 'absolute', bottom: '12px', left: '50%', transform: 'translateX(-50%)',
+              width: '92px', height: '7px', borderRadius: '50%',
+              background: `linear-gradient(90deg, ${CYAN}, ${PURPLE})`,
+              boxShadow: `0 0 16px ${CYAN}, 0 0 28px ${PURPLE}66`,
+            }} />
           </div>
 
           {/* العنوان */}
-          <h1 className="fade-u2" style={{
-            fontFamily: 'Cairo, sans-serif', fontWeight: '900',
-            fontSize: 'clamp(36px, 6vw, 72px)', lineHeight: '1.15',
-            margin: '0 0 12px',
+          <h1 className="fu2" style={{
+            fontFamily: 'Cairo, sans-serif', fontWeight: 900,
+            fontSize: 'clamp(38px, 6.2vw, 74px)', lineHeight: 1.12, margin: '0 0 14px',
           }}>
-            <span className="shimmer-text">Holingo</span>
-            <span style={{ color: '#1A1A2E', fontSize: 'clamp(28px, 4.5vw, 56px)', display: 'block' }}> هولينغو</span>
+            <span className="wordmark">Holingo</span>
+            <span style={{ color: '#11122A', fontSize: 'clamp(28px, 4.6vw, 56px)', display: 'block', marginTop: '2px' }}>هولينغو</span>
           </h1>
 
-          {/* الوصف */}
-          <p className="fade-u3" style={{
-            fontFamily: 'Cairo, sans-serif', fontSize: 'clamp(14px, 2vw, 17px)',
-            color: '#6B7280', lineHeight: '1.8', maxWidth: '600px', margin: '0 auto 28px',
+          {/* العنوان الفرعي */}
+          <p className="fu3" style={{
+            fontFamily: 'Cairo, sans-serif', fontSize: 'clamp(14px, 2.1vw, 18px)',
+            color: '#5B6478', lineHeight: 1.85, maxWidth: '640px', margin: '0 auto 30px',
           }}>
-            منصة تحويل الدروس الأدبية إلى محتوى تفاعلي
-            بتقنية <span style={{ color: '#7B2FBE', fontWeight: '700' }}>الهولوغرام</span> و<span style={{ color: '#1E88E5', fontWeight: '700' }}>الموشن غرافيك</span>
+            منصة تحويل الدروس الأدبية إلى محتوى تفاعلي بتقنية{' '}
+            <span style={{ color: PURPLE, fontWeight: 700 }}>الهولوغرام</span> و
+            <span style={{ color: '#0596b8', fontWeight: 700 }}>الموشن غرافيك</span>
           </p>
 
           {/* بطاقة عنوان المشروع */}
-          <div className="fade-u4 holo-card" style={{ padding: '28px 36px', maxWidth: '660px', margin: '0 auto 44px' }}>
+          <div className="fu4 holo-card" style={{ padding: '30px 38px', maxWidth: '680px', margin: '0 auto' }}>
             <p style={{
-              fontFamily: 'Cairo, sans-serif', fontSize: '11px', fontWeight: '700',
-              color: '#1E88E5', letterSpacing: '3px', marginBottom: '14px',
-            }}>مشروع التخرج</p>
+              fontFamily: 'Cairo, sans-serif', fontSize: '11px', fontWeight: 700,
+              color: '#0596b8', letterSpacing: '3px', marginBottom: '14px',
+            }}>مشروع التخرّج</p>
             <h2 style={{
-              fontFamily: 'Cairo, sans-serif', fontWeight: '800',
-              fontSize: 'clamp(15px, 2.5vw, 21px)', color: '#1A1A2E',
-              lineHeight: '1.5', margin: '0 0 8px',
+              fontFamily: 'Cairo, sans-serif', fontWeight: 800,
+              fontSize: 'clamp(16px, 2.6vw, 23px)', color: '#11122A', lineHeight: 1.5, margin: '0 0 10px',
             }}>
               دمج الموشن غرافيك وتقنية الهولوغرام في جودة التدريس
             </h2>
             <p style={{
-              fontFamily: 'Cairo, sans-serif', fontSize: 'clamp(12px, 1.8vw, 14px)',
-              color: '#6B7280', margin: 0,
+              fontFamily: 'Cairo, sans-serif', fontSize: 'clamp(12px, 1.9vw, 15px)', color: '#5B6478', margin: 0,
             }}>
               رؤية تطبيقية لتطوير الممارسات البيداغوجية في الجامعة
             </p>
           </div>
 
-          {/* بطاقات الطالب والمشرف */}
-          <div className="fade-u4" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center', maxWidth: '460px', margin: '0 auto' }}>
-            {[
-              { label: 'إعداد الطالب', name: 'محمد بوبركة', icon: '🎓', color: '#1E88E5', bg: 'rgba(30,136,229,0.07)' },
-              { label: 'إشراف',       name: 'أ.د. وهيب وهيبة', icon: '👩‍🏫', color: '#7B2FBE', bg: 'rgba(123,47,190,0.07)' },
-            ].map((card, i) => (
-              <div key={i} style={{
-                flex: '1 1 190px', background: card.bg,
-                border: `1px solid ${card.color}25`, borderRadius: '16px', padding: '20px', textAlign: 'center',
+          {/* مؤشّر التمرير */}
+          <div style={{ marginTop: '46px' }}>
+            <button
+              onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+              aria-label="انتقل للأسفل"
+              style={{
+                width: '44px', height: '44px', margin: '0 auto',
+                border: `2px solid ${CYAN}40`, borderRadius: '50%', background: 'rgba(255,255,255,0.7)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                cursor: 'pointer', boxShadow: `0 0 18px ${CYAN}1f`,
               }}>
-                <div style={{ fontSize: '24px', marginBottom: '6px' }}>{card.icon}</div>
-                <p style={{ fontFamily: 'Cairo, sans-serif', fontSize: '11px', color: card.color, marginBottom: '6px', fontWeight: '700', letterSpacing: '1px' }}>{card.label}</p>
-                <p style={{ fontFamily: 'Cairo, sans-serif', fontSize: '15px', color: '#1A1A2E', fontWeight: '700', margin: 0 }}>{card.name}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* سهم للأسفل */}
-          <div style={{ marginTop: '52px' }}>
-            <div onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })} style={{
-              width: '42px', height: '42px', margin: '0 auto',
-              border: '2px solid rgba(30,136,229,0.3)', borderRadius: '50%',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', animation: 'drift 2s ease-in-out infinite',
-              boxShadow: '0 0 16px rgba(30,136,229,0.12)',
-            }}>
-              <span style={{ color: '#1E88E5', fontSize: '18px' }}>↓</span>
-            </div>
+              <span className="arrow-bob" style={{ color: '#0596b8', fontSize: '18px' }} aria-hidden>↓</span>
+            </button>
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          لجنة المناقشة
-          ══════════════════════════════════════════════ */}
-      <section style={{ padding: '80px 24px', background: 'rgba(30,136,229,0.03)', borderTop: '1px solid rgba(30,136,229,0.08)' }}>
-        <div style={{ maxWidth: '860px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <h2 style={{ fontFamily: 'Cairo, sans-serif', fontWeight: '800', fontSize: 'clamp(20px, 3vw, 30px)', color: '#1A1A2E', marginBottom: '12px' }}>
-              لجنة المناقشة
-            </h2>
-            <div style={{ width: '60px', height: '3px', background: 'linear-gradient(90deg, #1E88E5, #7B2FBE)', borderRadius: '2px', margin: '0 auto' }} />
+      {/* ════════════════════════════════════════════════════════════════
+          معلومات المشروع — الطالب / الإشراف
+          ════════════════════════════════════════════════════════════════ */}
+      <section style={{ padding: '78px 24px', background: '#F2F7FF', borderBlock: '1px solid rgba(0,212,255,0.1)' }}>
+        <div style={{ maxWidth: '880px', margin: '0 auto' }}>
+          <SectionTitle>معلومات المشروع</SectionTitle>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
+            {[
+              { label: 'إعداد الطالب', name: 'محمد بوبركة',   icon: '🎓', color: CYAN },
+              { label: 'إشراف',        name: 'أ.د. وهيب وهيبة', icon: '👩‍🏫', color: PURPLE },
+            ].map((c, i) => (
+              <div key={i} className="holo-card" style={{ padding: '34px 30px', textAlign: 'center' }}>
+                <div style={{
+                  width: '66px', height: '66px', margin: '0 auto 16px',
+                  background: `linear-gradient(135deg, ${c.color}, ${c.color}aa)`,
+                  borderRadius: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '28px', boxShadow: `0 8px 22px ${c.color}33`,
+                }}>{c.icon}</div>
+                <p style={{
+                  fontFamily: 'Cairo, sans-serif', fontSize: '12px', fontWeight: 700,
+                  color: c.color, letterSpacing: '2px', marginBottom: '8px',
+                }}>{c.label}</p>
+                <p style={{ fontFamily: 'Cairo, sans-serif', fontSize: '19px', fontWeight: 800, color: '#11122A', margin: 0 }}>{c.name}</p>
+              </div>
+            ))}
           </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════
+          لجنة المناقشة
+          ════════════════════════════════════════════════════════════════ */}
+      <section style={{ padding: '78px 24px' }}>
+        <div style={{ maxWidth: '880px', margin: '0 auto' }}>
+          <SectionTitle>لجنة المناقشة</SectionTitle>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <div className="holo-card" style={{ padding: '32px 40px', maxWidth: '400px', width: '100%', textAlign: 'center' }}>
+            <div className="holo-card" style={{ padding: '34px 42px', maxWidth: '420px', width: '100%', textAlign: 'center' }}>
               <div style={{
-                width: '64px', height: '64px', margin: '0 auto 16px',
-                background: 'linear-gradient(135deg, #1E88E5, #7B2FBE)',
-                borderRadius: '50%', display: 'flex', alignItems: 'center',
-                justifyContent: 'center', fontFamily: 'Cairo, sans-serif',
-                fontWeight: '800', fontSize: '22px', color: 'white',
-                boxShadow: '0 8px 24px rgba(30,136,229,0.3)',
+                width: '68px', height: '68px', margin: '0 auto 16px',
+                background: `linear-gradient(135deg, ${PURPLE}, ${MAGENTA})`,
+                borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontFamily: 'Cairo, sans-serif', fontWeight: 800, fontSize: '23px', color: 'white',
+                boxShadow: `0 8px 24px ${PURPLE}45`,
               }}>و.و</div>
-              <h3 style={{ fontFamily: 'Cairo, sans-serif', fontWeight: '800', fontSize: '18px', color: '#1A1A2E', marginBottom: '8px' }}>
+              <h3 style={{ fontFamily: 'Cairo, sans-serif', fontWeight: 800, fontSize: '19px', color: '#11122A', marginBottom: '10px' }}>
                 أ.د. وهيب وهيبة
               </h3>
               <span style={{
-                display: 'inline-block', padding: '4px 16px',
-                background: 'rgba(30,136,229,0.1)', border: '1px solid rgba(30,136,229,0.25)',
+                display: 'inline-block', padding: '5px 18px',
+                background: 'rgba(123,47,190,0.1)', border: '1px solid rgba(123,47,190,0.26)',
                 borderRadius: '20px', fontFamily: 'Cairo, sans-serif',
-                fontSize: '12px', color: '#1E88E5', fontWeight: '600', marginBottom: '8px',
+                fontSize: '12px', color: PURPLE, fontWeight: 600,
               }}>مشرفاً ومقرراً</span>
-              <p style={{ fontFamily: 'Cairo, sans-serif', fontSize: '13px', color: '#6B7280', margin: '8px 0 0' }}>
-                المركز الجامعي مغنية
+              <p style={{ fontFamily: 'Cairo, sans-serif', fontSize: '13px', color: '#5B6478', margin: '12px 0 0' }}>
+                المركز الجامعي بمغنية
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
+      {/* ════════════════════════════════════════════════════════════════
           ما هو هولينغو؟
-          ══════════════════════════════════════════════ */}
-      <section style={{ padding: '80px 24px' }}>
-        <div style={{ maxWidth: '960px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <h2 style={{ fontFamily: 'Cairo, sans-serif', fontWeight: '800', fontSize: 'clamp(20px, 3vw, 30px)', color: '#1A1A2E', marginBottom: '18px' }}>
-              ما هو هولينغو؟
-            </h2>
-            <p style={{
-              fontFamily: 'Cairo, sans-serif', fontSize: 'clamp(14px, 2vw, 16px)',
-              color: '#6B7280', lineHeight: '2', maxWidth: '620px', margin: '0 auto',
-            }}>
-              هولينغو منصة تعليمية رقمية تهدف إلى تحويل الدروس الأدبية النظرية
-              إلى محتوى تفاعلي عبر تقنيتي الموشن غرافيك والهولوغرام،
-              لتطوير الممارسات البيداغوجية في التعليم الجامعي الجزائري
-            </p>
-            <div style={{ width: '60px', height: '3px', background: 'linear-gradient(90deg, #1E88E5, #7B2FBE)', borderRadius: '2px', margin: '20px auto 0' }} />
-          </div>
+          ════════════════════════════════════════════════════════════════ */}
+      <section style={{ padding: '78px 24px', background: '#F2F7FF', borderBlock: '1px solid rgba(123,47,190,0.1)' }}>
+        <div style={{ maxWidth: '980px', margin: '0 auto' }}>
+          <SectionTitle sub="هولينغو منصة تعليمية رقمية تهدف إلى تحويل الدروس الأدبية النظرية إلى محتوى تفاعلي عبر تقنيتي الموشن غرافيك والهولوغرام، لتطوير الممارسات البيداغوجية في التعليم الجامعي الجزائري.">
+            ما هو هولينغو؟
+          </SectionTitle>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '24px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(270px, 1fr))', gap: '24px' }}>
             {[
-              { icon: '🎬', title: 'موشن غرافيك', desc: 'تحويل المفاهيم إلى رسوم متحركة تفاعلية', color: '#1E88E5' },
-              { icon: '🔮', title: 'هولوغرام',    desc: 'عرض المحتوى بأبعاد ثلاثية واقعية',        color: '#7B2FBE' },
-              { icon: '🎓', title: 'جودة التدريس', desc: 'تطوير الممارسات البيداغوجية الجامعية',  color: '#00BCD4' },
-            ].map((feat, i) => (
-              <div key={i} className="holo-card" style={{ padding: '36px 28px', textAlign: 'center' }}>
-                <div style={{ fontSize: '52px', marginBottom: '16px' }}>{feat.icon}</div>
-                <h3 style={{ fontFamily: 'Cairo, sans-serif', fontWeight: '800', fontSize: '18px', color: feat.color, marginBottom: '10px' }}>{feat.title}</h3>
-                <p style={{ fontFamily: 'Cairo, sans-serif', fontSize: '14px', color: '#6B7280', lineHeight: '1.7', margin: 0 }}>{feat.desc}</p>
+              { icon: '🎬', title: 'موشن غرافيك',  desc: 'تحويل المفاهيم إلى رسوم متحركة تفاعلية',  color: CYAN },
+              { icon: '🔮', title: 'هولوغرام',     desc: 'عرض المحتوى بأبعاد ثلاثية واقعية',         color: PURPLE },
+              { icon: '🎓', title: 'جودة التدريس', desc: 'تطوير الممارسات البيداغوجية الجامعية',    color: MAGENTA },
+            ].map((f, i) => (
+              <div key={i} className="holo-card" style={{ padding: '38px 28px', textAlign: 'center' }}>
+                <div style={{
+                  width: '70px', height: '70px', margin: '0 auto 16px',
+                  borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '34px', background: `${f.color}14`, border: `1px solid ${f.color}30`,
+                }}>{f.icon}</div>
+                <h3 style={{ fontFamily: 'Cairo, sans-serif', fontWeight: 800, fontSize: '19px', color: f.color, marginBottom: '10px' }}>{f.title}</h3>
+                <p style={{ fontFamily: 'Cairo, sans-serif', fontSize: '14px', color: '#5B6478', lineHeight: 1.7, margin: 0 }}>{f.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
+      {/* ════════════════════════════════════════════════════════════════
           فريق العمل
-          ══════════════════════════════════════════════ */}
-      <section style={{ padding: '80px 24px', background: 'rgba(123,47,190,0.03)', borderTop: '1px solid rgba(123,47,190,0.08)' }}>
-        <div style={{ maxWidth: '960px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <h2 style={{ fontFamily: 'Cairo, sans-serif', fontWeight: '800', fontSize: 'clamp(20px, 3vw, 30px)', color: '#1A1A2E', marginBottom: '12px' }}>
-              فريق العمل
-            </h2>
-            <div style={{ width: '60px', height: '3px', background: 'linear-gradient(90deg, #7B2FBE, #1E88E5)', borderRadius: '2px', margin: '0 auto' }} />
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '16px' }}>
-            {team.map((member, i) => (
-              <TeamCard key={i} name={member.name} initials={member.initials} color={teamColors[i]} />
+          ════════════════════════════════════════════════════════════════ */}
+      <section style={{ padding: '78px 24px' }}>
+        <div style={{ maxWidth: '980px', margin: '0 auto' }}>
+          <SectionTitle>فريق العمل</SectionTitle>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(168px, 1fr))', gap: '18px' }}>
+            {team.map((m, i) => (
+              <TeamCard key={i} name={m.name} initials={m.initials} color={teamColors[i % teamColors.length]} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          اختيار نوع المستخدم
-          ══════════════════════════════════════════════ */}
-      <section style={{ padding: '80px 24px', position: 'relative', overflow: 'hidden' }}>
-        {/* خلفية ثلاثية الأبعاد خفيفة */}
+      {/* ════════════════════════════════════════════════════════════════
+          اختيار نوع المستخدم (المنطق محفوظ)
+          ════════════════════════════════════════════════════════════════ */}
+      <section style={{ padding: '78px 24px', position: 'relative', overflow: 'hidden', background: '#F2F7FF', borderBlock: '1px solid rgba(0,212,255,0.1)' }}>
         <div style={{
           position: 'absolute', inset: 0, pointerEvents: 'none',
-          backgroundImage: 'radial-gradient(circle, rgba(30,136,229,0.07) 1px, transparent 1px)',
-          backgroundSize: '28px 28px',
+          backgroundImage: 'radial-gradient(circle, rgba(123,47,190,0.06) 1px, transparent 1px)',
+          backgroundSize: '30px 30px',
         }} />
-        <div style={{ maxWidth: '960px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <h2 style={{ fontFamily: 'Cairo, sans-serif', fontWeight: '800', fontSize: 'clamp(20px, 3vw, 30px)', color: '#1A1A2E', marginBottom: '12px' }}>
+        <div style={{ maxWidth: '980px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          <div style={{ textAlign: 'center', marginBottom: '46px' }}>
+            <h2 style={{ fontFamily: 'Cairo, sans-serif', fontWeight: 800, fontSize: 'clamp(22px, 3.4vw, 34px)', color: '#11122A', marginBottom: '12px' }}>
               ابدأ تجربتك الآن
             </h2>
-            <p style={{ fontFamily: 'Cairo, sans-serif', fontSize: '15px', color: '#9CA3AF' }}>
+            <p style={{ fontFamily: 'Cairo, sans-serif', fontSize: '15px', color: '#9098A6' }}>
               اختر نوع حسابك للانضمام إلى المنصة
             </p>
-            <div style={{ width: '60px', height: '3px', background: 'linear-gradient(90deg, #1E88E5, #7B2FBE)', borderRadius: '2px', margin: '16px auto 0' }} />
+            <div style={{ width: '64px', height: '3px', background: `linear-gradient(90deg, ${CYAN}, ${PURPLE}, ${MAGENTA})`, borderRadius: '2px', margin: '18px auto 0' }} />
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(285px, 1fr))', gap: '24px' }}>
             <RoleCard
               icon="🎓" title="أنا طالب"
               description="تصفّح الدروس التفاعلية وتابع مشاريعك التعليمية"
-              color="#1E88E5" colorLight="#42A5F5"
+              color={CYAN} colorLight="#5FE3FF"
               href="/auth/register/student"
             />
             <RoleCard
               icon="📚" title="أنا أستاذ"
               description="ارفع دروسك الأدبية وحوّلها إلى محتوى تفاعلي"
-              color="#7B2FBE" colorLight="#9B3FDE"
+              color={PURPLE} colorLight="#9B3FDE"
               href="/auth/register/teacher"
             />
             <RoleCard
               icon="🎬" title="أنا عامل حر"
               description="أنجز مشاريع الأساتذة وحوّل المحتوى إلى هولوغرام وموشن غرافيك"
-              color="#00BCD4" colorLight="#26C6DA"
+              color={MAGENTA} colorLight="#FF6FC4"
               href="/auth/register/freelancer"
             />
           </div>
+
           <div style={{ textAlign: 'center', marginTop: '36px' }}>
             <a href="/auth/login" style={{
               fontFamily: 'Cairo, sans-serif', fontSize: '14px',
-              color: '#1E88E5', textDecoration: 'none', fontWeight: '500',
-              borderBottom: '1px solid rgba(30,136,229,0.4)', paddingBottom: '2px',
+              color: '#0596b8', textDecoration: 'none', fontWeight: 500,
+              borderBottom: '1px solid rgba(0,212,255,0.45)', paddingBottom: '2px',
             }}>
               لديك حساب بالفعل؟ سجّل دخولك
             </a>
@@ -701,31 +745,30 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
+      {/* ════════════════════════════════════════════════════════════════
           FOOTER
-          ══════════════════════════════════════════════ */}
-      <footer style={{
-        background: '#0A0A1A',
-        padding: '36px 24px',
-        textAlign: 'center',
-      }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
-          <img
-            src="/holingo-logo.png"
-            alt="Holingo"
-            width={52}
-            height={52}
-            style={{ borderRadius: '12px', objectFit: 'contain', opacity: 0.85 }}
-            onError={(e) => {
-              const target = e.currentTarget as HTMLImageElement;
-              target.style.display = 'none';
-            }}
-          />
-          <div style={{ fontFamily: 'Cairo, sans-serif', fontWeight: '800', fontSize: '18px', letterSpacing: '2px' }}>
-            <span className="shimmer-text">Holingo</span>
+          ════════════════════════════════════════════════════════════════ */}
+      <footer style={{ background: '#0A0A1A', padding: '40px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        {/* خط هولوغرامي علوي */}
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: `linear-gradient(90deg, transparent, ${CYAN}, ${PURPLE}, ${MAGENTA}, transparent)`, opacity: 0.7 }} />
+        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '14px' }}>
+          <div style={{ borderRadius: '14px', overflow: 'hidden', lineHeight: 0, boxShadow: `0 0 24px ${CYAN}33` }}>
+            <img
+              src="/holingo-logo.png"
+              alt="Holingo"
+              width={56} height={56}
+              style={{ display: 'block', width: '56px', height: '56px', objectFit: 'cover' }}
+              onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+            />
           </div>
-          <p style={{ fontFamily: 'Cairo, sans-serif', fontSize: '13px', color: 'rgba(255,255,255,0.35)', margin: 0 }}>
+          <div style={{ fontFamily: 'Cairo, sans-serif', fontWeight: 800, fontSize: '19px', letterSpacing: '2px' }}>
+            <span className="wordmark">Holingo</span>
+          </div>
+          <p style={{ fontFamily: 'Cairo, sans-serif', fontSize: '13px', color: 'rgba(255,255,255,0.4)', margin: 0 }}>
             © 2026 Holingo — جميع الحقوق محفوظة
+          </p>
+          <p style={{ fontFamily: 'Cairo, sans-serif', fontSize: '11.5px', color: 'rgba(255,255,255,0.28)', margin: 0 }}>
+            المركز الجامعي بمغنية — معهد الآداب واللغات
           </p>
         </div>
       </footer>
