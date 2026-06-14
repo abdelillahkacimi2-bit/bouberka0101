@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Footer from '@/components/Footer';
 
 const teacherLessons = [
   { id: 1, title: 'الفصاحة والبلاغة في القرآن الكريم', status: 'منشور', views: 824, students: 312 },
@@ -67,70 +68,73 @@ export default function TeacherDashboard() {
         </button>
       </aside>
 
-      {/* Main */}
-      <main style={{ marginRight: '240px', flex: 1, padding: '32px' }}>
-        <div style={{ marginBottom: '32px' }}>
-          <h1 style={{ fontWeight: '800', fontSize: '24px', color: '#1A1A2E', marginBottom: '4px' }}>أهلاً، {user.name?.split(' ')[0]} 📚</h1>
-          <p style={{ fontSize: '14px', color: '#9CA3AF' }}>{user.institution || 'لوحة تحكم الأستاذ'} • {user.department || ''}</p>
-        </div>
-
-        {/* Stats */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '28px' }}>
-          {statsData.map((stat, i) => (
-            <div key={i} style={{ background: 'white', borderRadius: '16px', padding: '22px', boxShadow: '0 2px 12px rgba(0,0,0,0.05)', border: `1px solid ${stat.color}15` }}>
-              <div style={{ width: '46px', height: '46px', background: stat.bg, borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', marginBottom: '12px' }}>{stat.icon}</div>
-              <div style={{ fontWeight: '800', fontSize: '28px', color: stat.color, lineHeight: 1 }}>{stat.value}</div>
-              <div style={{ fontSize: '13px', color: '#9CA3AF', marginTop: '4px' }}>{stat.label}</div>
-            </div>
-          ))}
-        </div>
-
-        {/* Upload CTA */}
-        <div style={{
-          background: 'linear-gradient(135deg, #8B6914, #B8900F)', borderRadius: '20px', padding: '28px 32px',
-          marginBottom: '28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          boxShadow: '0 8px 30px rgba(139, 105, 20, 0.3)',
-        }}>
-          <div style={{ color: 'white' }}>
-            <h3 style={{ fontWeight: '800', fontSize: '20px', marginBottom: '6px' }}>📤 أضف درساً جديداً</h3>
-            <p style={{ fontSize: '14px', opacity: 0.85 }}>ارفع ملفاتك ليحوّلها العمال الأحرار إلى محتوى تفاعلي</p>
+      {/* Main Content Wrapper */}
+      <div style={{ marginRight: '240px', flex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh' }} className="main-content-wrapper">
+        <main style={{ flex: 1, padding: '32px' }} className="main-content">
+          <div style={{ marginBottom: '32px' }}>
+            <h1 style={{ fontWeight: '800', fontSize: '24px', color: '#1A1A2E', marginBottom: '4px' }}>أهلاً، {user.name?.split(' ')[0]} 📚</h1>
+            <p style={{ fontSize: '14px', color: '#9CA3AF' }}>{user.institution || 'لوحة تحكم الأستاذ'} • {user.department || ''}</p>
           </div>
-          <button style={{
-            padding: '12px 28px', background: 'rgba(255,255,255,0.2)', border: '2px solid rgba(255,255,255,0.5)',
-            borderRadius: '12px', color: 'white', fontFamily: 'Cairo, sans-serif', fontWeight: '700', fontSize: '15px', cursor: 'pointer',
-            backdropFilter: 'blur(10px)',
-          }}>
-            رفع الآن
-          </button>
-        </div>
 
-        {/* My Lessons */}
-        <div>
-          <h2 style={{ fontWeight: '800', fontSize: '20px', color: '#1A1A2E', marginBottom: '16px' }}>📋 دروسي</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {teacherLessons.map(lesson => (
-              <div key={lesson.id} style={{
-                background: 'white', borderRadius: '14px', padding: '18px 22px',
-                boxShadow: '0 2px 12px rgba(0,0,0,0.05)', border: '1px solid #E5E7EB',
-                display: 'flex', alignItems: 'center', gap: '16px',
-              }}>
-                <div style={{ width: '46px', height: '46px', background: '#FDF8EC', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0 }}>📝</div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: '700', fontSize: '15px', color: '#1A1A2E', marginBottom: '4px' }}>{lesson.title}</div>
-                  <div style={{ fontSize: '12px', color: '#9CA3AF' }}>👁️ {lesson.views} مشاهدة • 🎓 {lesson.students} طالب</div>
-                </div>
-                <span style={{
-                  padding: '5px 14px', borderRadius: '20px', fontSize: '12px', fontWeight: '600',
-                  background: lesson.status === 'منشور' ? '#D1FAE5' : lesson.status === 'قيد التحويل' ? '#DBEAFE' : '#F3F4F6',
-                  color: lesson.status === 'منشور' ? '#065F46' : lesson.status === 'قيد التحويل' ? '#1E40AF' : '#6B7280',
-                }}>
-                  {lesson.status}
-                </span>
+          {/* Stats */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '28px' }}>
+            {statsData.map((stat, i) => (
+              <div key={i} style={{ background: 'white', borderRadius: '16px', padding: '22px', boxShadow: '0 2px 12px rgba(0,0,0,0.05)', border: `1px solid ${stat.color}15` }}>
+                <div style={{ width: '46px', height: '46px', background: stat.bg, borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', marginBottom: '12px' }}>{stat.icon}</div>
+                <div style={{ fontWeight: '800', fontSize: '28px', color: stat.color, lineHeight: 1 }}>{stat.value}</div>
+                <div style={{ fontSize: '13px', color: '#9CA3AF', marginTop: '4px' }}>{stat.label}</div>
               </div>
             ))}
           </div>
-        </div>
-      </main>
+
+          {/* Upload CTA */}
+          <div style={{
+            background: 'linear-gradient(135deg, #8B6914, #B8900F)', borderRadius: '20px', padding: '28px 32px',
+            marginBottom: '28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            boxShadow: '0 8px 30px rgba(139, 105, 20, 0.3)',
+          }}>
+            <div style={{ color: 'white' }}>
+              <h3 style={{ fontWeight: '800', fontSize: '20px', marginBottom: '6px' }}>📤 أضف درساً جديداً</h3>
+              <p style={{ fontSize: '14px', opacity: 0.85 }}>ارفع ملفاتك ليحوّلها العمال الأحرار إلى محتوى تفاعلي</p>
+            </div>
+            <button style={{
+              padding: '12px 28px', background: 'rgba(255,255,255,0.2)', border: '2px solid rgba(255,255,255,0.5)',
+              borderRadius: '12px', color: 'white', fontFamily: 'Cairo, sans-serif', fontWeight: '700', fontSize: '15px', cursor: 'pointer',
+              backdropFilter: 'blur(10px)',
+            }}>
+              رفع الآن
+            </button>
+          </div>
+
+          {/* My Lessons */}
+          <div>
+            <h2 style={{ fontWeight: '800', fontSize: '20px', color: '#1A1A2E', marginBottom: '16px' }}>📋 دروسي</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {teacherLessons.map(lesson => (
+                <div key={lesson.id} style={{
+                  background: 'white', borderRadius: '14px', padding: '18px 22px',
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.05)', border: '1px solid #E5E7EB',
+                  display: 'flex', alignItems: 'center', gap: '16px',
+                }}>
+                  <div style={{ width: '46px', height: '46px', background: '#FDF8EC', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0 }}>📝</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: '700', fontSize: '15px', color: '#1A1A2E', marginBottom: '4px' }}>{lesson.title}</div>
+                    <div style={{ fontSize: '12px', color: '#9CA3AF' }}>👁️ {lesson.views} مشاهدة • 🎓 {lesson.students} طالب</div>
+                  </div>
+                  <span style={{
+                    padding: '5px 14px', borderRadius: '20px', fontSize: '12px', fontWeight: '600',
+                    background: lesson.status === 'منشور' ? '#D1FAE5' : lesson.status === 'قيد التحويل' ? '#DBEAFE' : '#F3F4F6',
+                    color: lesson.status === 'منشور' ? '#065F46' : lesson.status === 'قيد التحويل' ? '#1E40AF' : '#6B7280',
+                  }}>
+                    {lesson.status}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }

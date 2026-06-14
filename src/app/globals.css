@@ -278,3 +278,16 @@ body {
     font-size: 40vw !important;
   }
 }
+
+/* Dashboard responsive adjustments */
+@media (max-width: 900px) {
+  .sidebar {
+    transform: translateX(100%) !important;
+  }
+  .main-content-wrapper {
+    margin-right: 0 !important;
+  }
+  .main-content {
+    padding: 20px !important;
+  }
+}

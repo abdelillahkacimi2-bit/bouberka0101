@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 const serviceOptions = [
   { id: 'motion', label: 'إنتاج موشن غرافيك', icon: '🎬' },
@@ -175,6 +176,7 @@ export default function FreelancerRegisterPage() {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

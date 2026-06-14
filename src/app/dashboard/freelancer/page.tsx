@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Footer from '@/components/Footer';
 
 const availableProjects = [
   { id: 1, title: 'مخارج الحروف العربية — المستوى المتقدم', teacher: 'د. بن عمر محمد', type: 'موشن غرافيك', budget: '8,000 دج', deadline: '5 أيام', priority: 'عاجل' },
@@ -90,123 +91,126 @@ export default function FreelancerDashboard() {
         </button>
       </aside>
 
-      {/* Main */}
-      <main style={{ marginRight: '240px', flex: 1, padding: '32px' }}>
-        <div style={{ marginBottom: '32px' }}>
-          <h1 style={{ fontWeight: '800', fontSize: '24px', color: '#1A1A2E', marginBottom: '4px' }}>أهلاً، {(user.name as string)?.split(' ')[0]} 🎬</h1>
-          <p style={{ fontSize: '14px', color: '#9CA3AF' }}>ابحث عن مشاريع تناسب مهاراتك</p>
-        </div>
-
-        {/* Earnings Banner */}
-        <div style={{
-          background: 'linear-gradient(135deg, #4A1D8F, #6329BC)', borderRadius: '20px', padding: '24px 32px',
-          marginBottom: '28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          boxShadow: '0 8px 30px rgba(74, 29, 143, 0.3)',
-        }}>
-          <div style={{ color: 'white' }}>
-            <p style={{ fontSize: '13px', opacity: 0.75, marginBottom: '4px' }}>أرباحك هذا الشهر</p>
-            <div style={{ fontWeight: '900', fontSize: '32px' }}>15,000 دج</div>
+      {/* Main Content Wrapper */}
+      <div style={{ marginRight: '240px', flex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh' }} className="main-content-wrapper">
+        <main style={{ flex: 1, padding: '32px' }} className="main-content">
+          <div style={{ marginBottom: '32px' }}>
+            <h1 style={{ fontWeight: '800', fontSize: '24px', color: '#1A1A2E', marginBottom: '4px' }}>أهلاً، {(user.name as string)?.split(' ')[0]} 🎬</h1>
+            <p style={{ fontSize: '14px', color: '#9CA3AF' }}>ابحث عن مشاريع تناسب مهاراتك</p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', color: 'white' }}>
-            {[{ label: 'مشاريع مكتملة', val: '2' }, { label: 'في الانتظار', val: '1' }, { label: 'نجمة التقييم', val: '4.9⭐' }, { label: 'وقت التسليم', val: '100%' }].map((s, i) => (
-              <div key={i} style={{ textAlign: 'center', padding: '10px', background: 'rgba(255,255,255,0.1)', borderRadius: '10px' }}>
-                <div style={{ fontWeight: '800', fontSize: '16px' }}>{s.val}</div>
-                <div style={{ fontSize: '10px', opacity: 0.75 }}>{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Tabs */}
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', background: 'white', padding: '6px', borderRadius: '14px', width: 'fit-content', boxShadow: '0 2px 10px rgba(0,0,0,0.06)' }}>
-          {[{ id: 'available', label: '🔍 المشاريع المتاحة' }, { id: 'mine', label: '💼 مشاريعي' }].map(tab => (
-            <button key={tab.id} onClick={() => setActiveTab(tab.id as 'available' | 'mine')} style={{
-              padding: '10px 20px', borderRadius: '10px', border: 'none', cursor: 'pointer',
-              fontFamily: 'Cairo, sans-serif', fontWeight: '600', fontSize: '14px', transition: 'all 0.2s ease',
-              background: activeTab === tab.id ? 'linear-gradient(135deg, #4A1D8F, #6329BC)' : 'transparent',
-              color: activeTab === tab.id ? 'white' : '#6B7280',
-            }}>
-              {tab.label}
-            </button>
-          ))}
-        </div>
-
-        {activeTab === 'available' ? (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            {availableProjects.map(proj => (
-              <div key={proj.id} style={{
-                background: 'white', borderRadius: '16px', padding: '22px 26px',
-                boxShadow: '0 2px 12px rgba(0,0,0,0.05)', border: '1px solid #E5E7EB',
-                display: 'flex', alignItems: 'center', gap: '16px', transition: 'all 0.3s ease',
-              }}
-              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = '#4A1D8F40'; (e.currentTarget as HTMLDivElement).style.transform = 'translateX(-4px)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = '#E5E7EB'; (e.currentTarget as HTMLDivElement).style.transform = 'translateX(0)'; }}
-              >
-                <div style={{ width: '50px', height: '50px', background: '#F3EEFF', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0 }}>
-                  {proj.type === 'موشن غرافيك' ? '🎬' : proj.type === 'هولوغرام' ? '🔮' : '🎞️'}
+          {/* Earnings Banner */}
+          <div style={{
+            background: 'linear-gradient(135deg, #4A1D8F, #6329BC)', borderRadius: '20px', padding: '24px 32px',
+            marginBottom: '28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            boxShadow: '0 8px 30px rgba(74, 29, 143, 0.3)',
+          }}>
+            <div style={{ color: 'white' }}>
+              <p style={{ fontSize: '13px', opacity: 0.75, marginBottom: '4px' }}>أرباحك هذا الشهر</p>
+              <div style={{ fontWeight: '900', fontSize: '32px' }}>15,000 دج</div>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', color: 'white' }}>
+              {[{ label: 'مشاريع مكتملة', val: '2' }, { label: 'في الانتظار', val: '1' }, { label: 'نجمة التقييم', val: '4.9⭐' }, { label: 'وقت التسليم', val: '100%' }].map((s, i) => (
+                <div key={i} style={{ textAlign: 'center', padding: '10px', background: 'rgba(255,255,255,0.1)', borderRadius: '10px' }}>
+                  <div style={{ fontWeight: '800', fontSize: '16px' }}>{s.val}</div>
+                  <div style={{ fontSize: '10px', opacity: 0.75 }}>{s.label}</div>
                 </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: '700', fontSize: '15px', color: '#1A1A2E', marginBottom: '4px' }}>{proj.title}</div>
-                  <div style={{ fontSize: '12px', color: '#9CA3AF' }}>{proj.teacher} • {proj.type}</div>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px', flexShrink: 0 }}>
-                  <span style={{ fontWeight: '700', fontSize: '16px', color: '#4A1D8F' }}>{proj.budget}</span>
-                  <div style={{ display: 'flex', gap: '6px' }}>
-                    <span style={{
-                      padding: '3px 10px', borderRadius: '20px', fontSize: '11px', fontWeight: '600',
-                      background: proj.priority === 'عاجل' ? '#FEE2E2' : '#F3F4F6',
-                      color: proj.priority === 'عاجل' ? '#EF4444' : '#6B7280',
-                    }}>⏰ {proj.deadline}</span>
-                  </div>
-                  <button style={{
-                    padding: '8px 18px', background: 'linear-gradient(135deg, #4A1D8F, #6329BC)',
-                    color: 'white', border: 'none', borderRadius: '10px',
-                    fontFamily: 'Cairo, sans-serif', fontWeight: '600', fontSize: '13px', cursor: 'pointer',
-                  }}>
-                    قدّم طلباً
-                  </button>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            {myProjects.map(proj => (
-              <div key={proj.id} style={{
-                background: 'white', borderRadius: '16px', padding: '22px 26px',
-                boxShadow: '0 2px 12px rgba(0,0,0,0.05)', border: '1px solid #E5E7EB',
+
+          {/* Tabs */}
+          <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', background: 'white', padding: '6px', borderRadius: '14px', width: 'fit-content', boxShadow: '0 2px 10px rgba(0,0,0,0.06)' }}>
+            {[{ id: 'available', label: '🔍 المشاريع المتاحة' }, { id: 'mine', label: '💼 مشاريعي' }].map(tab => (
+              <button key={tab.id} onClick={() => setActiveTab(tab.id as 'available' | 'mine')} style={{
+                padding: '10px 20px', borderRadius: '10px', border: 'none', cursor: 'pointer',
+                fontFamily: 'Cairo, sans-serif', fontWeight: '600', fontSize: '14px', transition: 'all 0.2s ease',
+                background: activeTab === tab.id ? 'linear-gradient(135deg, #4A1D8F, #6329BC)' : 'transparent',
+                color: activeTab === tab.id ? 'white' : '#6B7280',
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
-                  <div>
-                    <div style={{ fontWeight: '700', fontSize: '15px', color: '#1A1A2E', marginBottom: '4px' }}>{proj.title}</div>
-                    <div style={{ fontSize: '12px', color: '#9CA3AF' }}>العميل: {proj.client}</div>
-                  </div>
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <span style={{
-                      padding: '5px 14px', borderRadius: '20px', fontSize: '12px', fontWeight: '600',
-                      background: proj.progress === 100 ? '#D1FAE5' : '#DBEAFE',
-                      color: proj.progress === 100 ? '#065F46' : '#1E40AF',
-                    }}>{proj.status}</span>
-                    <span style={{
-                      padding: '5px 14px', borderRadius: '20px', fontSize: '12px', fontWeight: '600',
-                      background: proj.payment === 'تم الدفع' ? '#D1FAE5' : '#FDF8EC',
-                      color: proj.payment === 'تم الدفع' ? '#065F46' : '#92400E',
-                    }}>{proj.payment}</span>
-                  </div>
-                </div>
-                <div style={{ height: '8px', background: '#F3F4F6', borderRadius: '4px', overflow: 'hidden' }}>
-                  <div style={{
-                    height: '100%', borderRadius: '4px', width: `${proj.progress}%`,
-                    background: proj.progress === 100 ? 'linear-gradient(90deg, #10B981, #059669)' : 'linear-gradient(90deg, #4A1D8F, #6329BC)',
-                    transition: 'width 0.5s ease',
-                  }} />
-                </div>
-                <div style={{ textAlign: 'left', fontSize: '11px', color: '#9CA3AF', marginTop: '4px' }}>{proj.progress}%</div>
-              </div>
+                {tab.label}
+              </button>
             ))}
           </div>
-        )}
-      </main>
+
+          {activeTab === 'available' ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              {availableProjects.map(proj => (
+                <div key={proj.id} style={{
+                  background: 'white', borderRadius: '16px', padding: '22px 26px',
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.05)', border: '1px solid #E5E7EB',
+                  display: 'flex', alignItems: 'center', gap: '16px', transition: 'all 0.3s ease',
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = '#4A1D8F40'; (e.currentTarget as HTMLDivElement).style.transform = 'translateX(-4px)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = '#E5E7EB'; (e.currentTarget as HTMLDivElement).style.transform = 'translateX(0)'; }}
+                >
+                  <div style={{ width: '50px', height: '50px', background: '#F3EEFF', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0 }}>
+                    {proj.type === 'موشن غرافيك' ? '🎬' : proj.type === 'هولوغرام' ? '🔮' : '🎞️'}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: '700', fontSize: '15px', color: '#1A1A2E', marginBottom: '4px' }}>{proj.title}</div>
+                    <div style={{ fontSize: '12px', color: '#9CA3AF' }}>{proj.teacher} • {proj.type}</div>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px', flexShrink: 0 }}>
+                    <span style={{ fontWeight: '700', fontSize: '16px', color: '#4A1D8F' }}>{proj.budget}</span>
+                    <div style={{ display: 'flex', gap: '6px' }}>
+                      <span style={{
+                        padding: '3px 10px', borderRadius: '20px', fontSize: '11px', fontWeight: '600',
+                        background: proj.priority === 'عاجل' ? '#FEE2E2' : '#F3F4F6',
+                        color: proj.priority === 'عاجل' ? '#EF4444' : '#6B7280',
+                      }}>⏰ {proj.deadline}</span>
+                    </div>
+                    <button style={{
+                      padding: '8px 18px', background: 'linear-gradient(135deg, #4A1D8F, #6329BC)',
+                      color: 'white', border: 'none', borderRadius: '10px',
+                      fontFamily: 'Cairo, sans-serif', fontWeight: '600', fontSize: '13px', cursor: 'pointer',
+                    }}>
+                      قدّم طلباً
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              {myProjects.map(proj => (
+                <div key={proj.id} style={{
+                  background: 'white', borderRadius: '16px', padding: '22px 26px',
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.05)', border: '1px solid #E5E7EB',
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+                    <div>
+                      <div style={{ fontWeight: '700', fontSize: '15px', color: '#1A1A2E', marginBottom: '4px' }}>{proj.title}</div>
+                      <div style={{ fontSize: '12px', color: '#9CA3AF' }}>العميل: {proj.client}</div>
+                    </div>
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <span style={{
+                        padding: '5px 14px', borderRadius: '20px', fontSize: '12px', fontWeight: '600',
+                        background: proj.progress === 100 ? '#D1FAE5' : '#DBEAFE',
+                        color: proj.progress === 100 ? '#065F46' : '#1E40AF',
+                      }}>{proj.status}</span>
+                      <span style={{
+                        padding: '5px 14px', borderRadius: '20px', fontSize: '12px', fontWeight: '600',
+                        background: proj.payment === 'تم الدفع' ? '#D1FAE5' : '#FDF8EC',
+                        color: proj.payment === 'تم الدفع' ? '#065F46' : '#92400E',
+                      }}>{proj.payment}</span>
+                    </div>
+                  </div>
+                  <div style={{ height: '8px', background: '#F3F4F6', borderRadius: '4px', overflow: 'hidden' }}>
+                    <div style={{
+                      height: '100%', borderRadius: '4px', width: proj.progress + "%",
+                      background: proj.progress === 100 ? 'linear-gradient(90deg, #10B981, #059669)' : 'linear-gradient(90deg, #4A1D8F, #6329BC)',
+                      transition: 'width 0.5s ease',
+                    }} />
+                  </div>
+                  <div style={{ textAlign: 'left', fontSize: '11px', color: '#9CA3AF', marginTop: '4px' }}>{proj.progress}%</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }

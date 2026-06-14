@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 const institutions = [
   'جامعة الجزائر 1 بن يوسف بن خدة',
@@ -162,6 +163,7 @@ export default function TeacherRegisterPage() {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
